@@ -8,5 +8,8 @@ default:
 watch:
     @pnpm dev
 
+https:
+    @pnpm dev:https
+
 fix:
     @pnpm lint:fix
