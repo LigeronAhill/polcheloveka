@@ -35,6 +35,10 @@ export default function RootLayout({
       localization={ruRU}
       appearance={{
         cssLayerName: "clerk",
+        elements: {
+          formButtonPrimary: "primary-gradient",
+          footerActionLink: "primary-text-gradient hover:text-primary-500",
+        },
       }}
     >
       <html lang="ru" suppressHydrationWarning={true}>
