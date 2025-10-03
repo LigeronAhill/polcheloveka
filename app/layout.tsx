@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import { Inter, Rubik_Vinyl } from "next/font/google";
 import "./globals.css";
+import { ruRU } from "@clerk/localizations";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const inter = Inter({
   variable: "--font-inter",
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
   subsets: ["latin", "cyrillic"],
 });
 
@@ -16,6 +19,9 @@ const rubik = Rubik_Vinyl({
 export const metadata: Metadata = {
   title: "Пол человека",
   description: "Форум по напольным покрытиям",
+  icons: {
+    icon: "/assets/images/site-logo.svg",
+  },
 };
 
 export default function RootLayout({
@@ -24,12 +30,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru" suppressHydrationWarning={true}>
-      <body
-        className={`${inter.variable} ${rubik.variable} bg-light-850 text-dark-100 antialiased dark:bg-dark-100 dark:text-light-850`}
-      >
-        {children}
-      </body>
-    </html>
+    <ClerkProvider
+      localization={ruRU}
+      appearance={{
+        cssLayerName: "clerk",
+      }}
+    >
+      <html lang="ru" suppressHydrationWarning={true}>
+        <body className={`${inter.variable} ${rubik.variable} `}>
+          {children}
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
