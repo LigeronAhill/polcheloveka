@@ -3,6 +3,7 @@ import { Inter, Rubik_Vinyl } from "next/font/google";
 import "./globals.css";
 import { ruRU } from "@clerk/localizations";
 import { ClerkProvider } from "@clerk/nextjs";
+import { ThemeProvider } from "@/context/ThemeProvider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -38,7 +39,7 @@ export default function RootLayout({
     >
       <html lang="ru" suppressHydrationWarning={true}>
         <body className={`${inter.variable} ${rubik.variable} `}>
-          {children}
+          <ThemeProvider>{children}</ThemeProvider>
         </body>
       </html>
     </ClerkProvider>
