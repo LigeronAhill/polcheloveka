@@ -13,3 +13,6 @@ https:
 
 fix:
     @pnpm lint:fix
+
+lint:
+    @pnpm lint

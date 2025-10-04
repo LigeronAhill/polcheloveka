@@ -1,8 +1,4 @@
 "use client";
-import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { sidebarLinks } from "@/constants";
 import {
   SignedIn,
   SignedOut,
@@ -11,6 +7,10 @@ import {
   SignUpButton,
   useAuth,
 } from "@clerk/nextjs";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { sidebarLinks } from "@/constants";
 import { Button } from "../ui/button";
 
 export default function LeftSidebar(): React.JSX.Element {

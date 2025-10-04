@@ -27,10 +27,10 @@ export const TagFilters = [
 ];
 
 export const HomePageFilters = [
-  { name: "Newest", value: "newest" },
-  { name: "Recommended", value: "recommended" },
-  { name: "Frequent", value: "frequent" },
-  { name: "Unanswered", value: "unanswered" },
+  { name: "Новые", value: "newest" },
+  { name: "Рекоммендуемые", value: "recommended" },
+  { name: "Популярные", value: "frequent" },
+  { name: "Неотвеченные", value: "unanswered" },
 ];
 
 export const GlobalSearchFilters = [
