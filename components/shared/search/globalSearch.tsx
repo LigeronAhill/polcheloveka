@@ -14,7 +14,7 @@ export default function GlobalSearch(): React.JSX.Element {
         />
         <Input
           type="text"
-          placeholder="Поиск..."
+          placeholder="Глобальный поиск..."
           className="border-none bg-light-800 font-normal text-base shadow-none outline-none placeholder:text-light-400 focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 dark:bg-transparent dark:placeholder:text-light-500"
         />
       </div>

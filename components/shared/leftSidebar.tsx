@@ -39,8 +39,8 @@ export default function LeftSidebar(): React.JSX.Element {
               <Image
                 src={item.imgURL}
                 alt={item.label}
-                width={25}
-                height={25}
+                width={20}
+                height={20}
                 className={`${isActive ? "" : "invert dark:invert-0"}`}
               />
               <p
@@ -59,8 +59,8 @@ export default function LeftSidebar(): React.JSX.Element {
               <Image
                 src="/assets/icons/account.svg"
                 alt="login"
-                width={25}
-                height={25}
+                width={20}
+                height={20}
                 className="invert lg:hidden dark:invert-0"
               />
               <span className="primary-text-gradient max-lg:hidden">Вход</span>
@@ -71,8 +71,8 @@ export default function LeftSidebar(): React.JSX.Element {
               <Image
                 src="/assets/icons/sign-up.svg"
                 alt="sign up"
-                width={25}
-                height={25}
+                width={20}
+                height={20}
                 className="invert lg:hidden dark:invert-0"
               />
               <span className="max-lg:hidden">Регистрация</span>

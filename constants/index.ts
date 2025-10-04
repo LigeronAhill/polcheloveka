@@ -10,37 +10,37 @@ export const sidebarLinks: SidebarLink[] = [
   {
     imgURL: "/assets/icons/home.svg",
     route: "/",
-    label: "Home",
+    label: "Главная",
   },
   {
     imgURL: "/assets/icons/users.svg",
     route: "/community",
-    label: "Community",
+    label: "Сообщество",
   },
   {
     imgURL: "/assets/icons/star.svg",
     route: "/collection",
-    label: "Collections",
+    label: "Коллекции",
   },
   {
     imgURL: "/assets/icons/suitcase.svg",
     route: "/jobs",
-    label: "Find Jobs",
+    label: "Вакансии",
   },
   {
     imgURL: "/assets/icons/tag.svg",
     route: "/tags",
-    label: "Tags",
+    label: "Метки",
   },
   {
     imgURL: "/assets/icons/user.svg",
     route: "/profile",
-    label: "Profile",
+    label: "Профиль",
   },
   {
     imgURL: "/assets/icons/question.svg",
     route: "/ask-question",
-    label: "Ask a question",
+    label: "Задать вопрос",
   },
 ];
 
