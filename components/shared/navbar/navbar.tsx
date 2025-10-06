@@ -1,4 +1,3 @@
-import { SignedIn, UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import GlobalSearch from "../search/globalSearch";
@@ -22,18 +21,6 @@ export default function Navbar(): React.JSX.Element {
       <GlobalSearch />
       <div className="flex items-center justify-between gap-5">
         <ThemeToggle />
-        <SignedIn>
-          <UserButton
-            appearance={{
-              elements: {
-                avatarBox: "h-10 w-10",
-              },
-              variables: {
-                colorPrimary: "#ff7000",
-              },
-            }}
-          />
-        </SignedIn>
         <MobileNav />
       </div>
     </nav>

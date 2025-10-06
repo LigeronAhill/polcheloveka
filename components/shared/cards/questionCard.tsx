@@ -33,14 +33,16 @@ export default function QuestionCard({
         ))}
       </div>
       <div className="mt-6 flex w-full flex-wrap justify-between gap-3">
-        <Metric
-          imgUrl={author.picture}
-          alt="user"
-          value={author.name}
-          title={getTimeStamp(createdAt)}
-          href={`/profile/${author._id}`}
-          textStyles="text-dark-400 dark:text-light-700 text-sm font-medium"
-        />
+        {
+          <Metric
+            imgUrl={author.image}
+            alt="user"
+            value={author.name}
+            title={getTimeStamp(createdAt)}
+            href={`/profile/${author._id}`}
+            textStyles="text-dark-400 dark:text-light-700 text-sm font-medium"
+          />
+        }{" "}
         <Metric
           imgUrl="/assets/icons/like.svg"
           alt="upvotes"
@@ -71,7 +73,7 @@ interface Props {
   _id: string;
   title: string;
   tags: { _id: string; name: string }[];
-  author: { _id: string; name: string; picture?: string };
+  author: { _id: string; name: string; image?: string };
   upvotes: number;
   views: number;
   answers: number;

@@ -125,11 +125,9 @@ export interface GetTopInteractedTagsParams {
 }
 
 export interface CreateUserParams {
-  clerkId: string;
   name: string;
-  username: string;
   email: string;
-  picture: string;
+  image?: string;
 }
 
 export interface GetUserByIdParams {
@@ -144,7 +142,7 @@ export interface GetAllUsersParams {
 }
 
 export interface UpdateUserParams {
-  clerkId: string;
+  userId: string;
   updateData: Partial<IUser>;
   path: string;
 }
@@ -156,7 +154,7 @@ export interface ToggleSaveQuestionParams {
 }
 
 export interface GetSavedQuestionsParams {
-  clerkId: string;
+  userId: string;
   page?: number;
   pageSize?: number;
   filter?: string;
@@ -170,7 +168,7 @@ export interface GetUserStatsParams {
 }
 
 export interface DeleteUserParams {
-  clerkId: string;
+  userId: string;
 }
 interface Searchable
   extends OptionalPage,

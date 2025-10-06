@@ -1,11 +1,4 @@
 "use client";
-import {
-  SignedIn,
-  SignedOut,
-  SignInButton,
-  SignOutButton,
-  SignUpButton,
-} from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -18,8 +11,11 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { sidebarLinks } from "@/constants";
+import { authClient } from "@/lib/auth-client";
 
 export default function MobileNav(): React.JSX.Element {
+  const { data: session } = authClient.useSession();
+  const userId = session?.user?.id;
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -49,42 +45,41 @@ export default function MobileNav(): React.JSX.Element {
           </Link>
         </SheetTitle>
         <SheetClose asChild>
-          <NavContent />
+          <NavContent userId={userId} />
         </SheetClose>
-        <SignedOut>
-          <div className="flex flex-col gap-3 px-4 pb-8">
-            <SheetClose asChild>
-              <SignInButton oauthFlow="popup">
-                <Button className="min-h-[41px] w-full rounded-lg bg-light-800 px-4 py-3 font-medium text-sm/6 shadow-none dark:bg-dark-400">
-                  <span className="primary-text-gradient">Вход</span>
-                </Button>
-              </SignInButton>
-            </SheetClose>
-            <SheetClose asChild>
-              <SignUpButton oauthFlow="popup">
-                <Button className="min-h-[41px] w-full rounded-lg border border-light-700 bg-light-700 px-4 py-3 font-medium text-dark-400 text-sm/6 shadow-none dark:border-dark-400 dark:bg-dark-300 dark:text-light-900">
-                  Регистрация
-                </Button>
-              </SignUpButton>
-            </SheetClose>
-          </div>
-        </SignedOut>
-        <SignedIn>
-          <div className="flex flex-col gap-3 px-4 pb-8">
-            <SheetClose asChild>
-              <SignOutButton>
-                <Button className="min-h-[41px] w-full rounded-lg bg-light-800 px-4 py-3 font-medium text-sm/6 shadow-none dark:bg-dark-400">
-                  <span className="primary-text-gradient">Выход</span>
-                </Button>
-              </SignOutButton>
-            </SheetClose>
-          </div>
-        </SignedIn>
+        <div className="flex flex-col gap-3 px-4 pb-6">
+          {userId ? (
+            <Button
+              type="button"
+              onClick={() => {
+                authClient.signOut();
+              }}
+              className="min-h-12 w-full bg-light-700 text-light-500 hover:bg-light-700 dark:bg-dark-400 dark:text-light-500"
+            >
+              Выйти
+            </Button>
+          ) : (
+            <>
+              <Button
+                asChild
+                className="min-h-12 w-full bg-primary-500 text-light-900 hover:bg-primary-500"
+              >
+                <Link href="/login">Вход</Link>
+              </Button>
+              <Button
+                asChild
+                className="min-h-12 w-full dark:bg-dark-400 dark:text-light-700"
+              >
+                <Link href="/signup">Регистрация</Link>
+              </Button>
+            </>
+          )}
+        </div>
       </SheetContent>
     </Sheet>
   );
 }
-function NavContent(): React.JSX.Element {
+function NavContent({ userId }: { userId?: string }): React.JSX.Element {
   const pathname = usePathname();
   return (
     <section className="flex h-full flex-col gap-6 px-4 pt-16">
@@ -92,6 +87,13 @@ function NavContent(): React.JSX.Element {
         const isActive =
           (pathname.includes(item.route) && item.route.length > 1) ||
           pathname === item.route;
+        if (item.route === "/profile") {
+          if (userId) {
+            item.route = `${item.route}/${userId}`;
+          } else {
+            return null;
+          }
+        }
         return (
           <SheetClose asChild key={item.route}>
             <Link

@@ -1,21 +1,15 @@
 "use client";
-import {
-  SignedIn,
-  SignedOut,
-  SignInButton,
-  SignOutButton,
-  SignUpButton,
-  useAuth,
-} from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { sidebarLinks } from "@/constants";
+import { authClient } from "@/lib/auth-client";
 import { Button } from "../ui/button";
 
 export default function LeftSidebar(): React.JSX.Element {
-  const { userId } = useAuth();
   const pathname = usePathname();
+  const { data: session } = authClient.useSession();
+  const userId = session?.user?.id;
   return (
     <section className="sticky top-0 left-0 flex h-screen flex-col justify-between overflow-y-auto border-light-800 border-r bg-light-900 p-6 pt-36 shadow-light-300 max-sm:hidden lg:w-[266px] dark:border-dark-300 dark:bg-dark-200 dark:shadow-none">
       <div className="flex flex-1 flex-col gap-6">
@@ -52,50 +46,34 @@ export default function LeftSidebar(): React.JSX.Element {
           );
         })}
       </div>
-      <SignedOut>
-        <div className="flex flex-col gap-3">
-          <SignInButton oauthFlow="popup">
-            <Button className="min-h-[41px] w-full rounded-lg bg-light-800 px-4 py-3 font-medium text-sm/6 shadow-none dark:bg-dark-400">
-              <Image
-                src="/assets/icons/account.svg"
-                alt="login"
-                width={20}
-                height={20}
-                className="invert lg:hidden dark:invert-0"
-              />
-              <span className="primary-text-gradient max-lg:hidden">Вход</span>
+      <div>
+        {userId ? (
+          <Button
+            type="button"
+            onClick={() => {
+              authClient.signOut();
+            }}
+            className="min-h-12 w-full bg-light-700 text-light-500 hover:bg-light-700 dark:bg-dark-400 dark:text-light-500"
+          >
+            Выйти
+          </Button>
+        ) : (
+          <div className="container space-y-3">
+            <Button
+              asChild
+              className="min-h-12 w-full bg-primary-500 text-light-900 hover:bg-primary-500"
+            >
+              <Link href="/login">Вход</Link>
             </Button>
-          </SignInButton>
-          <SignUpButton oauthFlow="popup">
-            <Button className="min-h-[41px] w-full rounded-lg border border-light-700 bg-light-700 px-4 py-3 font-medium text-dark-400 text-sm/6 shadow-none dark:border-dark-400 dark:bg-dark-300 dark:text-light-900">
-              <Image
-                src="/assets/icons/sign-up.svg"
-                alt="sign up"
-                width={20}
-                height={20}
-                className="invert lg:hidden dark:invert-0"
-              />
-              <span className="max-lg:hidden">Регистрация</span>
+            <Button
+              asChild
+              className="min-h-12 w-full dark:bg-dark-400 dark:text-light-700"
+            >
+              <Link href="/signup">Регистрация</Link>
             </Button>
-          </SignUpButton>
-        </div>
-      </SignedOut>
-      <SignedIn>
-        <div className="flex flex-col gap-3">
-          <SignOutButton>
-            <Button className="min-h-[41px] w-full rounded-lg bg-light-800 px-4 py-3 font-medium text-sm/6 shadow-none dark:bg-dark-400">
-              <Image
-                src="/assets/icons/sign-up.svg"
-                alt="sign up"
-                width={20}
-                height={20}
-                className="invert lg:hidden dark:invert-0"
-              />
-              <span className="primary-text-gradient max-lg:hidden">Выход</span>
-            </Button>
-          </SignOutButton>
-        </div>
-      </SignedIn>
+          </div>
+        )}
+      </div>
     </section>
   );
 }

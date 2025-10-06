@@ -1,5 +1,10 @@
 import { type ClassValue, clsx } from "clsx";
+import qs from "query-string";
 import { twMerge } from "tailwind-merge";
+import { BADGE_CRITERIA, CURRENCY_NOTATIONS } from "@/constants";
+import { JobPageFilters } from "@/constants/filters";
+import type { FilterProps } from "@/types";
+import type { GetFormattedSalaryParams } from "./actions/shared.types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -95,4 +100,161 @@ export function formatNumber(num: number, decimals: number = 1): string {
   }
 
   return formatted + units[exponent];
+}
+
+// ---------------------------
+
+export const getJoinedDate = (date: Date): string => {
+  // Extract the month and year from the Date object
+  const month = date.toLocaleString("default", { month: "long" });
+  const year = date.getFullYear();
+
+  // Create the joined date string (e.g., "September 2023")
+  const joinedDate = `${month} ${year}`;
+
+  return joinedDate;
+};
+
+interface UrlQueryParams {
+  params: string;
+  key: string;
+  value: string | null;
+}
+
+export const formUrlQuery = ({ params, key, value }: UrlQueryParams) => {
+  const currentUrl = qs.parse(params);
+
+  currentUrl[key] = value;
+
+  return qs.stringifyUrl(
+    {
+      url: window.location.pathname,
+      query: currentUrl,
+    },
+    { skipNull: true },
+  );
+};
+
+interface RemoveUrlQueryParams {
+  params: string;
+  keysToRemove: string[];
+}
+
+export const removeKeysFromQuery = ({
+  params,
+  keysToRemove,
+}: RemoveUrlQueryParams) => {
+  const currentUrl = qs.parse(params);
+
+  keysToRemove.forEach((key) => {
+    delete currentUrl[key];
+  });
+
+  return qs.stringifyUrl(
+    {
+      url: window.location.pathname,
+      query: currentUrl,
+    },
+    { skipNull: true },
+  );
+};
+
+// Типы для критерий и уровней бейджей
+type BadgeCriteriaKey = keyof typeof BADGE_CRITERIA;
+type BadgeLevel = "BRONZE" | "SILVER" | "GOLD";
+
+interface BadgeCounts {
+  GOLD: number;
+  SILVER: number;
+  BRONZE: number;
+}
+
+interface BadgeParam {
+  criteria: {
+    type: BadgeCriteriaKey;
+    count: number;
+  }[];
+}
+
+export const assignBadges = (params: BadgeParam) => {
+  const badgeCounts: BadgeCounts = {
+    GOLD: 0,
+    SILVER: 0,
+    BRONZE: 0,
+  };
+
+  const { criteria } = params;
+
+  criteria.forEach((item) => {
+    const { type, count } = item;
+    const badgeLevels = BADGE_CRITERIA[type];
+
+    (Object.keys(badgeLevels) as BadgeLevel[]).forEach((level) => {
+      if (count >= badgeLevels[level]) {
+        badgeCounts[level] += 1;
+      }
+    });
+  });
+
+  return badgeCounts;
+};
+
+export const employmentTypeConverter = (type: string): string => {
+  let employmentType: string = "";
+
+  JobPageFilters.forEach((filter: FilterProps) => {
+    if (filter.value === type) {
+      employmentType = filter.name;
+    }
+  });
+
+  return employmentType;
+};
+
+export const getFormattedSalary = ({
+  min,
+  max,
+  currency,
+  period,
+}: GetFormattedSalaryParams) => {
+  if (!min || !max) return null;
+
+  const salaryInfo = {
+    symbol: CURRENCY_NOTATIONS[currency] || "$",
+    low: salaryFormatter(min, 1),
+    high: salaryFormatter(max, 1),
+    per: period ? `/${period.toLowerCase()}ly` : "",
+  };
+
+  const { symbol, low, high, per } = salaryInfo;
+
+  const formattedSalary = `${symbol}${low} - ${symbol}${high}${per}`;
+
+  return formattedSalary as string;
+};
+
+const salaryFormatter = (num: number, digits: number) => {
+  const lookup = [
+    { value: 1, symbol: "" },
+    { value: 1e3, symbol: "k" },
+    { value: 1e6, symbol: "M" },
+    { value: 1e9, symbol: "G" },
+    { value: 1e12, symbol: "T" },
+    { value: 1e15, symbol: "P" },
+    { value: 1e18, symbol: "E" },
+  ];
+
+  const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
+  const lookupItem = lookup
+    .slice()
+    .reverse()
+    .find((item) => num >= item.value);
+  return lookupItem
+    ? (num / lookupItem.value).toFixed(digits).replace(rx, "$1") +
+        lookupItem.symbol
+    : "0";
+};
+
+export function isValidImage(url: string) {
+  return /\.(jpg|jpeg|png|webp||svg)$/.test(url);
 }

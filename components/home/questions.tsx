@@ -3,8 +3,7 @@ import QuestionCard from "../shared/cards/questionCard";
 import NoResult from "../shared/noResult";
 
 export default async function QuestionCards(): Promise<React.JSX.Element> {
-  const result = await getQuestions({});
-  const questions = result.questions;
+  const { questions } = await getQuestions({});
   return (
     <section className="mt-10 flex w-full flex-col gap-6">
       {questions.length > 0 ? (

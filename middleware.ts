@@ -1,18 +1,31 @@
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { getSessionCookie } from "better-auth/cookies";
+import { type NextRequest, NextResponse } from "next/server";
 
-const isPublicRoute = createRouteMatcher(["/sign-in(.*)", "/sign-up(.*)", "/"]);
+export async function middleware(request: NextRequest) {
+  const sessionCookie = getSessionCookie(request);
+  const { pathname } = request.nextUrl;
 
-export default clerkMiddleware(async (auth, req) => {
-  if (!isPublicRoute(req)) {
-    await auth.protect();
+  // Если пользователь не авторизован И пытается получить доступ к защищенному маршруту
+  if (!sessionCookie && isProtectedRoute(pathname)) {
+    return NextResponse.redirect(new URL("/login", request.url));
   }
-});
+
+  // Если пользователь авторизован И пытается получить доступ к login
+  if (sessionCookie && pathname === "/login") {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
+
+  return NextResponse.next();
+}
+
+function isProtectedRoute(pathname: string): boolean {
+  const protectedRoutes = ["/ask-question", "/profile"];
+
+  return protectedRoutes.some(
+    (route) => pathname.startsWith(route) && !pathname.startsWith("/api/auth"),
+  );
+}
 
 export const config = {
-  matcher: [
-    // Skip Next.js internals and all static files, unless found in search params
-    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
-    // Always run for API routes
-    "/(api|trpc)(.*)",
-  ],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
 };

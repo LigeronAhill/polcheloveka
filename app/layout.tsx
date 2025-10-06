@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Rubik_Vinyl } from "next/font/google";
 import "./globals.css";
-import { ruRU } from "@clerk/localizations";
-import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "sonner";
 import { ThemeProvider } from "@/context/ThemeProvider";
 
 const inter = Inter({
@@ -31,21 +30,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider
-      localization={ruRU}
-      appearance={{
-        cssLayerName: "clerk",
-        elements: {
-          formButtonPrimary: "primary-gradient",
-          footerActionLink: "primary-text-gradient hover:text-primary-500",
-        },
-      }}
-    >
-      <html lang="ru" suppressHydrationWarning={true}>
-        <body className={`${inter.variable} ${rubik.variable} `}>
-          <ThemeProvider>{children}</ThemeProvider>
-        </body>
-      </html>
-    </ClerkProvider>
+    <html lang="ru" suppressHydrationWarning={true}>
+      <body className={`${inter.variable} ${rubik.variable} `}>
+        <Toaster />
+        <ThemeProvider>{children}</ThemeProvider>
+      </body>
+    </html>
   );
 }

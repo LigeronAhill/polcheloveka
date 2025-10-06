@@ -1,17 +1,20 @@
-import { auth } from "@clerk/nextjs/server";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import Question from "@/components/forms/question";
 import { getUserById } from "@/lib/actions/user.action";
+import { auth } from "@/lib/auth";
 
 export default async function AskQuestion() {
-  var { userId } = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+  const userId = session?.user?.id;
   if (!userId) {
-    redirect("/sign-in");
+    console.log("not allowed");
+    redirect("/login");
   }
 
-  userId = "dummy_clerk_1736090400000";
-
-  const mongoUser = await getUserById({ userId });
+  const mongoUser = await getUserById(userId);
   const uid = JSON.stringify(mongoUser._id);
   console.log(uid);
   return (

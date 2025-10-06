@@ -18,6 +18,10 @@ export default function Metric({
   textStyles?: string;
   isAuthor?: boolean;
 }): React.JSX.Element {
+  var className = "object-contain";
+  if (imgUrl === "/assets/icons/avatar.svg") {
+    className = `${className} invert dark:invert-0`;
+  }
   return (
     <div className="relative isolate flex flex-wrap items-center gap-2">
       {imgUrl && (
@@ -26,7 +30,7 @@ export default function Metric({
           alt={alt}
           width={16}
           height={16}
-          className={`object-contain ${href ? "rounded-full" : ""}`}
+          className={`${className} ${href ? "rounded-full" : ""}`}
         />
       )}
       <p className={`${textStyles} flex items-center gap-1`}>
