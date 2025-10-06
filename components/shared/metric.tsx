@@ -37,8 +37,9 @@ export default function Metric({
         {value}
         <span
           className={`line-clamp-1 font-normal text-xs ${isAuthor ? "max-sm:hidden" : ""}`}
-        ></span>
-        {title}
+        >
+          {title}
+        </span>
       </p>
       {href && (
         <Link href={href}>

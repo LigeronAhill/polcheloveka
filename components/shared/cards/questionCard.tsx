@@ -33,37 +33,37 @@ export default function QuestionCard({
         ))}
       </div>
       <div className="mt-6 flex w-full flex-wrap justify-between gap-3">
-        {
+        <Metric
+          imgUrl={author.image}
+          alt="user"
+          value={author.name}
+          title={getTimeStamp(createdAt)}
+          href={`/profile/${author._id}`}
+          textStyles="text-dark-400 dark:text-light-700 text-sm font-medium"
+        />
+        <div className="flex justify-between gap-3">
           <Metric
-            imgUrl={author.image}
-            alt="user"
-            value={author.name}
-            title={getTimeStamp(createdAt)}
-            href={`/profile/${author._id}`}
-            textStyles="text-dark-400 dark:text-light-700 text-sm font-medium"
+            imgUrl="/assets/icons/like.svg"
+            alt="upvotes"
+            value={formatNumber(upvotes)}
+            title={pluralize(upvotes, "Голос")}
+            textStyles="text-dark-400 dark:text-light-800 text-xs font-medium"
           />
-        }{" "}
-        <Metric
-          imgUrl="/assets/icons/like.svg"
-          alt="upvotes"
-          value={formatNumber(upvotes)}
-          title={pluralize(upvotes, "Голос")}
-          textStyles="text-dark-400 dark:text-light-800 text-xs font-medium"
-        />
-        <Metric
-          imgUrl="/assets/icons/message.svg"
-          alt="message"
-          value={formatNumber(answers)}
-          title={pluralize(answers, "Ответ")}
-          textStyles="text-dark-400 dark:text-light-800 text-xs font-medium"
-        />
-        <Metric
-          imgUrl="/assets/icons/eye.svg"
-          alt="eye"
-          value={formatNumber(views)}
-          title={pluralize(views, "Просмотр")}
-          textStyles="text-dark-400 dark:text-light-800 text-xs font-medium"
-        />
+          <Metric
+            imgUrl="/assets/icons/message.svg"
+            alt="message"
+            value={formatNumber(answers)}
+            title={pluralize(answers, "Ответ")}
+            textStyles="text-dark-400 dark:text-light-800 text-xs font-medium"
+          />
+          <Metric
+            imgUrl="/assets/icons/eye.svg"
+            alt="eye"
+            value={formatNumber(views)}
+            title={pluralize(views, "Просмотр")}
+            textStyles="text-dark-400 dark:text-light-800 text-xs font-medium"
+          />
+        </div>
       </div>
     </div>
   );

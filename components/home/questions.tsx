@@ -14,9 +14,9 @@ export default async function QuestionCards(): Promise<React.JSX.Element> {
             title={q.title}
             tags={q.tags}
             author={q.author}
-            upvotes={q.upvotes}
+            upvotes={q.upvotes.length}
             views={q.views}
-            answers={q.answers}
+            answers={q.answers.length}
             createdAt={q.createdAt}
           />
         ))
