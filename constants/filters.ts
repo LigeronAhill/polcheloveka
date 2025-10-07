@@ -6,9 +6,9 @@ export const AnswerFilters = [
 ];
 
 export const UserFilters = [
-  { name: "New Users", value: "new_users" },
-  { name: "Old Users", value: "old_users" },
-  { name: "Top Contributors", value: "top_contributors" },
+  { name: "Новые пользователи", value: "new_users" },
+  { name: "Ветераны", value: "old_users" },
+  { name: "Самые активные", value: "top_contributors" },
 ];
 
 export const QuestionFilters = [
