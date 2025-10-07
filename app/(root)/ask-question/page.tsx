@@ -16,7 +16,6 @@ export default async function AskQuestion() {
 
   const mongoUser = await getUserById(userId);
   const uid = JSON.stringify(mongoUser._id);
-  console.log(uid);
   return (
     <div>
       <h1 className="font-bold text-3xl text-dark-100 dark:text-light-900">
