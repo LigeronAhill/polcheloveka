@@ -130,10 +130,10 @@ export async function getAllUsers(params: GetAllUsersParams) {
 
     switch (filter) {
       case "new_users":
-        sortOptions = { joinedAt: -1 };
+        sortOptions = { createdAt: -1 };
         break;
       case "old_users":
-        sortOptions = { joinedAt: 1 };
+        sortOptions = { createdAt: 1 };
         break;
       case "top_contributors":
         sortOptions = { reputation: -1 };
@@ -363,7 +363,7 @@ export async function getUserQuestions(params: GetUserStatsParams) {
       .skip(skipAmount)
       .limit(pageSize)
       .populate("tags", "_id name")
-      .populate("author", "_id clerkId name picture");
+      .populate("author", "_id name picture");
 
     const isNextQuestions = totalQuestions > skipAmount + userQuestions.length;
 
@@ -389,7 +389,7 @@ export async function getUserAnswers(params: GetUserStatsParams) {
       .skip(skipAmount)
       .limit(pageSize)
       .populate("question", "_id title")
-      .populate("author", "_id clerkId name picture");
+      .populate("author", "_id name picture");
 
     const isNextAnswer = totalAnswers > skipAmount + userAnswers.length;
 
