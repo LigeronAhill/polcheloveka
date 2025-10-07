@@ -30,7 +30,7 @@ import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
-  email: z.email("Ввелите корректный адрес электронной почты"),
+  email: z.email("Введите корректный адрес электронной почты"),
   password: z
     .string()
     .min(8, "Минимальная длина пароля - 8 символов")
