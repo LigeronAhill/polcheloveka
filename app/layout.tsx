@@ -1,40 +1,38 @@
 import type { Metadata } from "next";
 import { Inter, Rubik_Vinyl } from "next/font/google";
 import "./globals.css";
-import { Toaster } from "sonner";
 import { ThemeProvider } from "@/context/ThemeProvider";
 
 const inter = Inter({
-  variable: "--font-inter",
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-  subsets: ["latin", "cyrillic"],
+	variable: "--font-inter",
+	weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+	subsets: ["latin", "cyrillic"],
 });
 
 const rubik = Rubik_Vinyl({
-  weight: "400",
-  variable: "--font-rubik",
-  subsets: ["cyrillic", "latin"],
+	weight: "400",
+	variable: "--font-rubik",
+	subsets: ["cyrillic", "latin"],
 });
 
 export const metadata: Metadata = {
-  title: "Пол человека",
-  description: "Форум по напольным покрытиям",
-  icons: {
-    icon: "/assets/images/site-logo.svg",
-  },
+	title: "Пол человека",
+	description: "Форум по напольным покрытиям",
+	icons: {
+		icon: "/assets/images/site-logo.svg",
+	},
 };
 
 export default function RootLayout({
-  children,
+	children,
 }: Readonly<{
-  children: React.ReactNode;
+	children: React.ReactNode;
 }>) {
-  return (
-    <html lang="ru" suppressHydrationWarning={true}>
-      <body className={`${inter.variable} ${rubik.variable} `}>
-        <Toaster />
-        <ThemeProvider>{children}</ThemeProvider>
-      </body>
-    </html>
-  );
+	return (
+		<html lang="ru" suppressHydrationWarning={true}>
+			<body className={`${inter.variable} ${rubik.variable} `}>
+				<ThemeProvider>{children}</ThemeProvider>
+			</body>
+		</html>
+	);
 }

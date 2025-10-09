@@ -1,11 +1,16 @@
+import { Toaster } from "@/components/ui/sonner";
+
 export default function AuthLayout({
-  children,
+	children,
 }: Readonly<{
-  children: React.ReactNode;
+	children: React.ReactNode;
 }>) {
-  return (
-    <main className="flex min-h-screen w-full items-center justify-center">
-      {children}
-    </main>
-  );
+	return (
+		<>
+			<main className="flex min-h-screen w-full items-center justify-center">
+				{children}
+			</main>
+			<Toaster />
+		</>
+	);
 }

@@ -2,190 +2,190 @@ import type { Schema } from "mongoose";
 import type { IUser } from "@/database/user.model";
 
 interface OptionalPage {
-  page?: number;
+	page?: number;
 }
 
 interface OptionalPageSize {
-  pageSize?: number;
+	pageSize?: number;
 }
 
 interface OptionalSearch {
-  searchQuery?: string;
+	searchQuery?: string;
 }
 
 interface OptionalFilter {
-  filter?: string;
+	filter?: string;
 }
 
 export interface CreateAnswerParams {
-  content: string;
-  author: string; // User ID
-  question: string; // Question ID
-  path: string;
+	content: string;
+	author: string; // User ID
+	question: string; // Question ID
+	path: string;
 }
 
 export interface GetAnswersParams {
-  questionId: string;
-  sortBy?: string;
-  page?: number;
-  pageSize?: number;
+	questionId: string;
+	sortBy?: string;
+	page?: number;
+	pageSize?: number;
 }
 
 export interface AnswerVoteParams {
-  answerId: string;
-  userId: string;
-  hasupVoted: boolean;
-  hasdownVoted: boolean;
-  path: string;
+	answerId: string;
+	userId: string;
+	hasupVoted: boolean;
+	hasdownVoted: boolean;
+	path: string;
 }
 
 export interface DeleteAnswerParams {
-  answerId: string;
-  path: string;
+	answerId: string;
+	path: string;
 }
 
 export interface SearchParams {
-  query?: string | null;
-  type?: string | null;
+	query?: string | null;
+	type?: string | null;
 }
 
 export interface RecommendedParams {
-  userId: string;
-  page?: number;
-  pageSize?: number;
-  searchQuery?: string;
+	userId: string;
+	page?: number;
+	pageSize?: number;
+	searchQuery?: string;
 }
 
 export interface ViewQuestionParams {
-  questionId: string;
-  userId: string | undefined;
+	questionId: string;
+	userId: string | undefined;
 }
 
 export interface JobFilterParams {
-  query: string;
-  page: string;
+	query: string;
+	page: string;
 }
 
 export interface GetQuestionsParams {
-  page?: number;
-  pageSize?: number;
-  searchQuery?: string;
-  filter?: string;
+	page?: number;
+	pageSize?: number;
+	searchQuery?: string;
+	filter?: string;
 }
 
 export interface CreateQuestionParams {
-  title: string;
-  content: string;
-  tags: string[];
-  author: Schema.Types.ObjectId | IUser;
-  path: string;
+	title: string;
+	content: string;
+	tags: string[];
+	author: Schema.Types.ObjectId | IUser;
+	path: string;
 }
 
 export interface GetQuestionByIdParams {
-  questionId: string;
+	questionId: string;
 }
 
 export interface QuestionVoteParams {
-  questionId: string;
-  userId: string;
-  hasupVoted: boolean;
-  hasdownVoted: boolean;
-  path: string;
+	questionId: string;
+	userId: string;
+	hasupVoted: boolean;
+	hasdownVoted: boolean;
+	path: string;
 }
 
 export interface DeleteQuestionParams {
-  questionId: string;
-  path: string;
+	questionId: string;
+	path: string;
 }
 
 export interface EditQuestionParams {
-  questionId: string;
-  title: string;
-  content: string;
-  path: string;
+	questionId: string;
+	title: string;
+	content: string;
+	path: string;
 }
 
 export interface GetAllTagsParams {
-  page?: number;
-  pageSize?: number;
-  filter?: string;
-  searchQuery?: string;
+	page?: number;
+	pageSize?: number;
+	filter?: string;
+	searchQuery?: string;
 }
 
 export interface GetQuestionsByTagIdParams {
-  tagId: string;
-  page?: number;
-  pageSize?: number;
-  searchQuery?: string;
+	tagId: string;
+	page?: number;
+	pageSize?: number;
+	searchQuery?: string;
 }
 
 export interface GetTopInteractedTagsParams {
-  userId: string;
-  limit?: number;
+	userId: string;
+	limit?: number;
 }
 
 export interface CreateUserParams {
-  name: string;
-  email: string;
-  image?: string;
+	name: string;
+	email: string;
+	image?: string;
 }
 
 export interface GetUserByIdParams {
-  userId: string;
+	userId: string;
 }
 
 export interface GetAllUsersParams {
-  page?: number;
-  pageSize?: number;
-  filter?: string;
-  searchQuery?: string; // Add searchQuery parameter
+	page?: number;
+	pageSize?: number;
+	filter?: string;
+	searchQuery?: string; // Add searchQuery parameter
 }
 
 export interface UpdateUserParams {
-  userId: string;
-  updateData: Partial<IUser>;
-  path: string;
+	userId: string;
+	updateData: Partial<IUser>;
+	path: string;
 }
 
 export interface ToggleSaveQuestionParams {
-  userId: string;
-  questionId: string;
-  path: string;
+	userId: string;
+	questionId: string;
+	path: string;
 }
 
 export interface GetSavedQuestionsParams {
-  userId: string;
-  page?: number;
-  pageSize?: number;
-  filter?: string;
-  searchQuery?: string;
+	userId: string;
+	page?: number;
+	pageSize?: number;
+	filter?: string;
+	searchQuery?: string;
 }
 
 export interface GetUserStatsParams {
-  userId: string;
-  page?: number;
-  pageSize?: number;
+	userId: string;
+	page?: number;
+	pageSize?: number;
 }
 
 export interface DeleteUserParams {
-  userId: string;
+	userId: string;
 }
 interface Searchable
-  extends OptionalPage,
-    OptionalPageSize,
-    OptionalSearch,
-    OptionalFilter {}
+	extends OptionalPage,
+		OptionalPageSize,
+		OptionalSearch,
+		OptionalFilter {}
 
 export interface GetJobsParams extends Searchable {
-  location?: string;
-  remote?: boolean | string;
-  wage?: boolean | string;
-  skills?: boolean | string;
+	location?: string;
+	remote?: boolean | string;
+	wage?: boolean | string;
+	skills?: boolean | string;
 }
 
 export interface GetFormattedSalaryParams {
-  min: number;
-  max: number;
-  currency: string;
-  period: string;
+	min: number;
+	max: number;
+	currency: string;
+	period: string;
 }
