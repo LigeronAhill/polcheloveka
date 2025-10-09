@@ -24,7 +24,16 @@ export default async function CommunityPage(): Promise<React.JSX.Element> {
 			</div>
 			<section className="mt-12 flex flex-wrap gap-4">
 				{results.users.length > 0 ? (
-					results.users.map((user) => <UserCard key={user._id} user={user} />)
+					results.users.map((user) => (
+						<UserCard
+							key={user._id as string}
+							user={{
+								_id: user._id as string,
+								name: user.name,
+								image: user.image as string,
+							}}
+						/>
+					))
 				) : (
 					<NoResult
 						title="Пока здесь нет людей..."
