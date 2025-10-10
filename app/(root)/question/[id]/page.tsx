@@ -5,6 +5,7 @@ import AnswerForm from "@/components/forms/answer";
 import { AllAnswers } from "@/components/shared/all_answers";
 import Metric from "@/components/shared/metric";
 import RenderTag from "@/components/shared/renderTag";
+import Votes from "@/components/shared/votes";
 import { getQuestionById } from "@/lib/actions/question.action";
 import { getUserProfile } from "@/lib/actions/user.action";
 import { auth } from "@/lib/auth";
@@ -21,6 +22,11 @@ export default async function QuestionDetailsPage({
 		headers: await headers(),
 	});
 	const userId = session?.user?.id;
+	const profile = await getUserProfile();
+	var hasSaved = false;
+	if (profile) {
+		hasSaved = profile.saved.includes(question._id);
+	}
 	return (
 		<article>
 			<div className="flex w-full flex-col items-center justify-start">
@@ -40,7 +46,18 @@ export default async function QuestionDetailsPage({
 							{question.author.name}
 						</p>
 					</Link>
-					<div className="flex justify-end">VOTING</div>
+					<div className="flex justify-end">
+						<Votes
+							type={"question"}
+							itemId={id}
+							userId={userId}
+							upvotes={question.upvotes.length}
+							hasUpvoted={question.upvotes.includes(userId)}
+							downvotes={question.downvotes.length}
+							hasDownvoted={question.downvotes.includes(userId)}
+							hasSaved={hasSaved}
+						/>
+					</div>
 				</div>
 				<h2 className="mt-3.5 w-full text-left font-bold text-2xl text-dark-200 dark:text-light-900">
 					{question.title}
@@ -80,7 +97,11 @@ export default async function QuestionDetailsPage({
 					/>
 				))}
 			</div>
-			<AllAnswers questionId={id} totalAnswers={question.answers.length} />
+			<AllAnswers
+				questionId={id}
+				totalAnswers={question.answers.length}
+				userId={userId}
+			/>
 			<AnswerForm author={userId} question={id} />
 		</article>
 	);

@@ -36,12 +36,12 @@ export async function getUserById(id: string): Promise<IUser> {
 		throw err;
 	}
 }
-export async function getUserProfile(): Promise<IUser> {
+export async function getUserProfile(): Promise<IUser | undefined> {
 	const session = await auth.api.getSession({
 		headers: await headers(),
 	});
 	if (!session?.user?.id) {
-		throw new Error("user not found");
+		return undefined;
 	}
 	try {
 		const user = await getUserById(session?.user?.id);

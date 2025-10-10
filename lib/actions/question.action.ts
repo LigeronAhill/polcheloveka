@@ -95,13 +95,13 @@ export async function upvoteQuestion(params: QuestionVoteParams) {
 	try {
 		connectToDatabase();
 
-		const { questionId, userId, hasupVoted, hasdownVoted, path } = params;
+		const { questionId, userId, hasUpvoted, hasDownvoted, path } = params;
 
 		let updateQuery = {};
 
-		if (hasupVoted) {
+		if (hasUpvoted) {
 			updateQuery = { $pull: { upvotes: userId } };
-		} else if (hasdownVoted) {
+		} else if (hasDownvoted) {
 			updateQuery = {
 				$pull: { downvotes: userId },
 				$push: { upvotes: userId },
@@ -120,12 +120,12 @@ export async function upvoteQuestion(params: QuestionVoteParams) {
 
 		// Increment author's reputation by +1/-1 for upvoting/revoking an upvote to the question
 		await User.findByIdAndUpdate(userId, {
-			$inc: { reputation: hasupVoted ? -1 : 1 },
+			$inc: { reputation: hasUpvoted ? -1 : 1 },
 		});
 
 		// Increment author's reputation by +10/-10 for recieving an upvote/downvote to the question
 		await User.findByIdAndUpdate(question.author, {
-			$inc: { reputation: hasupVoted ? -10 : 10 },
+			$inc: { reputation: hasUpvoted ? -10 : 10 },
 		});
 
 		revalidatePath(path);
@@ -139,13 +139,13 @@ export async function downvoteQuestion(params: QuestionVoteParams) {
 	try {
 		connectToDatabase();
 
-		const { questionId, userId, hasupVoted, hasdownVoted, path } = params;
+		const { questionId, userId, hasUpvoted, hasDownvoted, path } = params;
 
 		let updateQuery = {};
 
-		if (hasdownVoted) {
-			updateQuery = { $pull: { downvote: userId } };
-		} else if (hasupVoted) {
+		if (hasDownvoted) {
+			updateQuery = { $pull: { downvotes: userId } };
+		} else if (hasUpvoted) {
 			updateQuery = {
 				$pull: { upvotes: userId },
 				$push: { downvotes: userId },
@@ -164,11 +164,11 @@ export async function downvoteQuestion(params: QuestionVoteParams) {
 
 		// Increment author's reputation
 		await User.findByIdAndUpdate(userId, {
-			$inc: { reputation: hasdownVoted ? -2 : 2 },
+			$inc: { reputation: hasDownvoted ? -2 : 2 },
 		});
 
 		await User.findByIdAndUpdate(question.author, {
-			$inc: { reputation: hasdownVoted ? -10 : 10 },
+			$inc: { reputation: hasDownvoted ? -10 : 10 },
 		});
 
 		revalidatePath(path);
