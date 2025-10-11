@@ -1,7 +1,9 @@
 "use client";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useRef } from "react";
 import { downvoteAnswer, upvoteAnswer } from "@/lib/actions/answer.action";
+import { viewQuestion } from "@/lib/actions/interaction.action";
 import {
 	downvoteQuestion,
 	upvoteQuestion,
@@ -24,6 +26,7 @@ export default function Votes({
 	hasDownvoted,
 	hasSaved,
 }: Props): React.JSX.Element {
+	const hasViewed = useRef(false);
 	const router = useRouter();
 	const path = usePathname();
 	const handleSave = async () => {
@@ -73,6 +76,13 @@ export default function Votes({
 			}
 		}
 	};
+
+	useEffect(() => {
+		if (hasViewed.current || type !== "question") return;
+		hasViewed.current = true;
+		viewQuestion({ questionId: itemId, userId: userId });
+	}, [itemId, userId, type]);
+
 	return (
 		<div className="flex gap-5">
 			<div className="flex items-center justify-center gap-2.5">
