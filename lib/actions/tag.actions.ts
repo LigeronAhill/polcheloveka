@@ -4,6 +4,7 @@ import type { FilterQuery } from "mongoose";
 import Question from "@/database/question.model";
 import Tag, { type ITag } from "@/database/tag.model";
 import User from "@/database/user.model";
+import type { SavedQuestion } from "@/types";
 import { connectToDatabase } from "../mongoose";
 import type {
 	GetAllTagsParams,
@@ -105,7 +106,7 @@ export async function getQuestionsByTagId(params: GetQuestionsByTagIdParams) {
 			},
 			populate: [
 				{ path: "tags", model: Tag, select: "_id name" },
-				{ path: "author", model: User, select: "_id clerkId name picture" },
+				{ path: "author", model: User, select: "_id name image" },
 			],
 		});
 
@@ -115,9 +116,10 @@ export async function getQuestionsByTagId(params: GetQuestionsByTagIdParams) {
 
 		const isNext = tag.questions.length > pageSize;
 
-		const questions = tag.questions;
+		const questions: SavedQuestion[] = tag.questions;
+		const tagTitle: string = tag.name;
 
-		return { tagTitle: tag.name, questions, isNext };
+		return { tagTitle: tagTitle, questions: questions, isNext: isNext };
 	} catch (error) {
 		console.log(error);
 		throw error;

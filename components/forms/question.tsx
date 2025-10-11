@@ -63,7 +63,7 @@ export default function Question({
 					});
 				}
 				if (!field.value.includes(tagValue as never)) {
-					form.setValue("tags", [...field.value, tagValue]);
+					form.setValue("tags", [...field.value, tagValue.toUpperCase()]);
 					tagInput.value = "";
 					form.clearErrors("tags");
 				} else {
@@ -216,7 +216,7 @@ export default function Question({
 									{field.value.map((tag: string) => (
 										<Badge
 											key={tag}
-											className="flex items-center justify-center gap-2 rounded-md border-none bg-light-800 px-4 font-medium text-[10px] text-light-400 lowercase dark:bg-dark-300 dark:text-light-500"
+											className="flex items-center justify-center gap-2 rounded-md border-none bg-light-800 px-4 font-medium text-[10px] text-light-400 uppercase dark:bg-dark-300 dark:text-light-500"
 											onClick={() => handleTagRemove(tag, field)}
 										>
 											{tag}
