@@ -78,7 +78,8 @@ export default function Votes({
 	};
 
 	useEffect(() => {
-		if (hasViewed.current || type !== "question") return;
+		if (type !== "question") return;
+		if (hasViewed.current) return;
 		hasViewed.current = true;
 		viewQuestion({ questionId: itemId, userId: userId });
 	}, [itemId, userId, type]);
