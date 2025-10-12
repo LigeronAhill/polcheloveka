@@ -1,0 +1,83 @@
+import Image from "next/image";
+import { formatNumber } from "@/lib/utils";
+import type { BadgeCounts } from "@/types";
+
+interface StatsCardProps {
+	imgUrl: string;
+	value: number;
+	title: string;
+}
+
+const StatsCard = ({ imgUrl, value, title }: StatsCardProps) => {
+	return (
+		<div className="flex flex-wrap items-center justify-start gap-4 rounded-md border border-light-800 bg-light-900 p-6 shadow-light-300 dark:border-dark-300 dark:bg-dark-300 dark:shadow-dark-200">
+			<Image src={imgUrl} alt={title} width={40} height={50} />
+			<div>
+				<p className="font-semibold text-base text-dark-200 dark:text-light-900">
+					{value}
+				</p>
+				<p className="font-medium text-dark-400 text-sm dark:text-light-700">
+					{title}
+				</p>
+			</div>
+		</div>
+	);
+};
+
+interface Props {
+	totalQuestions: number;
+	totalAnswers: number;
+	badges: BadgeCounts;
+	reputation: number;
+}
+
+const Stats = ({ totalQuestions, totalAnswers, badges, reputation }: Props) => {
+	return (
+		<div className="mt-10">
+			<h4 className="font-semibold text-2xl text-dark-200 dark:text-light-900">
+				Репутация - {reputation}
+			</h4>
+
+			<div className="mt-5 grid grid-cols-1 xs:grid-cols-2 gap-5 md:grid-cols-4">
+				<div className="flex flex-wrap items-center justify-evenly gap-4 rounded-md border border-light-800 bg-light-900 p-6 shadow-light-300 dark:border-dark-300 dark:bg-dark-300 dark:shadow-dark-200">
+					<div>
+						<p className="font-semibold text-base text-dark-200 dark:text-light-900">
+							{formatNumber(totalQuestions)}
+						</p>
+						<p className="font-medium text-dark-400 text-sm dark:text-light-700">
+							Questions
+						</p>
+					</div>
+					<div>
+						<p className="font-semibold text-base text-dark-200 dark:text-light-900">
+							{formatNumber(totalAnswers)}
+						</p>
+						<p className="font-medium text-dark-400 text-sm dark:text-light-700">
+							Answers
+						</p>
+					</div>
+				</div>
+
+				<StatsCard
+					imgUrl="/assets/icons/gold-medal.svg"
+					value={badges.GOLD}
+					title="Gold Badges"
+				/>
+
+				<StatsCard
+					imgUrl="/assets/icons/silver-medal.svg"
+					value={badges.SILVER}
+					title="Silver Badges"
+				/>
+
+				<StatsCard
+					imgUrl="/assets/icons/bronze-medal.svg"
+					value={badges.BRONZE}
+					title="Bronze Badges"
+				/>
+			</div>
+		</div>
+	);
+};
+
+export default Stats;
