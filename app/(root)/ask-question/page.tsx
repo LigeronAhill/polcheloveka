@@ -22,7 +22,7 @@ export default async function AskQuestion() {
 				Задать вопрос
 			</h1>
 			<div className="mt-9">
-				<Question mongoUserId={uid} />
+				<Question mongoUserId={uid} type="create" />
 			</div>
 		</div>
 	);

@@ -17,30 +17,38 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-// import { useTheme } from "@/context/ThemeProvider";
-import { createQuestion } from "@/lib/actions/question.action";
+import { createQuestion, editQuestion } from "@/lib/actions/question.action";
 import { questionFormSchema } from "@/lib/validations";
 import { Badge } from "../ui/badge";
 import { Textarea } from "../ui/textarea";
 
-const formType: "create" | "edit" = "create";
+interface Props {
+	mongoUserId: string;
+	type: "create" | "edit";
+	questionDetails?: string;
+}
 
 export default function Question({
 	mongoUserId,
-}: {
-	mongoUserId: string;
-}): React.JSX.Element {
+	type,
+	questionDetails,
+}: Props): React.JSX.Element {
 	const router = useRouter();
 	const path = usePathname();
 	const [isSubmitting, setIsSubmitting] = useState(false);
-	// const { mode } = useTheme();
-	// const editorRef = useRef(null);
+
+	const parsedQuestionDetails = JSON.parse(questionDetails || "");
+
+	const groupedTags = parsedQuestionDetails.tags.map(
+		(tag: { _id: string; name: string }) => tag.name,
+	);
+
 	const form = useForm<z.infer<typeof questionFormSchema>>({
 		resolver: zodResolver(questionFormSchema),
 		defaultValues: {
-			title: "",
-			explanation: "",
-			tags: [],
+			title: parsedQuestionDetails.title || "",
+			explanation: parsedQuestionDetails.content || "",
+			tags: groupedTags || [],
 		},
 	});
 	const handleInputKeyDown = (
@@ -88,14 +96,24 @@ export default function Question({
 	async function onSubmit(values: z.infer<typeof questionFormSchema>) {
 		setIsSubmitting(true);
 		try {
-			await createQuestion({
-				title: values.title,
-				content: values.explanation,
-				tags: values.tags,
-				author: JSON.parse(mongoUserId),
-				path: path,
-			});
-			router.push("/");
+			if (type === "create") {
+				await createQuestion({
+					title: values.title,
+					content: values.explanation,
+					tags: values.tags,
+					author: JSON.parse(mongoUserId),
+					path: path,
+				});
+				router.push("/");
+			} else {
+				await editQuestion({
+					questionId: parsedQuestionDetails._id,
+					title: values.title,
+					content: values.explanation,
+					path: path,
+				});
+				router.push(`/question/${parsedQuestionDetails._id}`);
+			}
 		} catch (error) {
 			console.log(error);
 		} finally {
@@ -140,49 +158,6 @@ export default function Question({
 								<span className="text-primary-500">*</span>
 							</FormLabel>
 							<FormControl className="mt-3.5">
-								{
-									// <Editor
-									//   apiKey={process.env.NEXT_PUBLIC_TINY_API_KEY}
-									//   onInit={(_evt, editor) => {
-									//     // biome-ignore lint/suspicious/noAssignInExpressions: tiny editor...
-									//     return (editorRef.current = editor);
-									//   }}
-									//   onBlur={field.onBlur}
-									//   onEditorChange={(content) => field.onChange(content)}
-									//   initialValue=""
-									//   init={{
-									//     height: 350,
-									//     menubar: false,
-									//     plugins: [
-									//       "advlist",
-									//       "autolink",
-									//       "lists",
-									//       "link",
-									//       "image",
-									//       "charmap",
-									//       "preview",
-									//       "anchor",
-									//       "searchreplace",
-									//       "visualblocks",
-									//       "codesample",
-									//       "fullscreen",
-									//       "insertdatetime",
-									//       "media",
-									//       "table",
-									//       "code",
-									//       "help",
-									//     ],
-									//     toolbar:
-									//       "undo redo | codesample | " +
-									//       "bold italic underline forecolor | alignleft aligncenter " +
-									//       "alignright alignjustify | bullist numlist outdent indent | " +
-									//       "removeformat |",
-									//     content_style: "body { font-family:Inter; font-size:16px }",
-									//     skin: mode === "dark" ? "oxide-dark" : "oxide",
-									//     content_css: mode === "dark" ? "dark" : "light",
-									//   }}
-									// />
-								}
 								<Textarea
 									className="min-h-48 border border-light-700 bg-light-900 text-base text-dark-300 focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 dark:border-dark-400 dark:bg-dark-300 dark:text-light-700"
 									{...field}
@@ -206,6 +181,7 @@ export default function Question({
 							</FormLabel>
 							<FormControl className="mt-3.5">
 								<Input
+									disabled={type === "edit"}
 									className="min-h-14 border border-light-700 bg-light-900 text-base text-dark-300 focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 dark:border-dark-400 dark:bg-dark-300 dark:text-light-700"
 									placeholder="Добавьте метки..."
 									onKeyDown={(e) => handleInputKeyDown(e, field)}
@@ -217,16 +193,22 @@ export default function Question({
 										<Badge
 											key={tag}
 											className="flex items-center justify-center gap-2 rounded-md border-none bg-light-800 px-4 font-medium text-[10px] text-light-400 uppercase dark:bg-dark-300 dark:text-light-500"
-											onClick={() => handleTagRemove(tag, field)}
+											onClick={() =>
+												type === "create"
+													? handleTagRemove(tag, field)
+													: () => {}
+											}
 										>
 											{tag}
-											<Image
-												src="/assets/icons/close.svg"
-												alt="close"
-												width={12}
-												height={12}
-												className="cursor-pointer object-contain invert-0 dark:invert"
-											/>
+											{type === "create" && (
+												<Image
+													src="/assets/icons/close.svg"
+													alt="close"
+													width={12}
+													height={12}
+													className="cursor-pointer object-contain invert-0 dark:invert"
+												/>
+											)}
 										</Badge>
 									))}
 								</div>
@@ -244,10 +226,10 @@ export default function Question({
 					disabled={isSubmitting}
 				>
 					{isSubmitting
-						? formType === "edit"
+						? type === "edit"
 							? "Вносим изменения..."
 							: "Публикуем..."
-						: formType === "edit"
+						: type === "edit"
 							? "Изменить"
 							: "Опубликовать"}
 				</Button>

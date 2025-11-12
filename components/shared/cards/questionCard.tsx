@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { getUserProfile } from "@/lib/actions/user.action";
 import { formatNumber, getTimeStamp, pluralize } from "@/lib/utils";
+import EditDeleteAction from "../editDeleteAction";
 import Metric from "../metric";
 import RenderTag from "../renderTag";
-import EditDeleteAction from "../editDeleteActions";
 
 export default async function QuestionCard({
 	_id,
@@ -36,7 +36,7 @@ export default async function QuestionCard({
 					</Link>
 				</div>
 				{showActionButtons && (
-					<EditDeleteAction type="question" itemId={_id}/>
+					<EditDeleteAction type="question" itemId={_id.toString()} />
 				)}
 			</div>
 			<div className="mt-3.5 flex flex-wrap gap-2">

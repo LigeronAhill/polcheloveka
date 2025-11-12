@@ -1,42 +1,28 @@
 "use client";
-
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { deleteAnswer } from "@/lib/actions/answer.action";
 import { deleteQuestion } from "@/lib/actions/question.action";
 
-interface Props {
-	type: string;
-	itemId: string;
-}
-
-const EditDeleteAction = ({ type, itemId }: Props) => {
-	const pathname = usePathname();
+export default function EditDeleteAction({
+	type,
+	itemId,
+}: Props): React.JSX.Element {
+	const path = usePathname();
 	const router = useRouter();
-
 	const handleEdit = () => {
-		router.push(`/question/edit/${JSON.parse(itemId)}`);
+		router.push(`/question/edit/${itemId.toString()}`);
 	};
-
 	const handleDelete = async () => {
-		if (type === "Question") {
-			// Delete question
-			await deleteQuestion({
-				questionId: JSON.parse(itemId),
-				path: pathname,
-			});
-		} else if (type === "Answer") {
-			// Delete answer
-			await deleteAnswer({
-				answerId: JSON.parse(itemId),
-				path: pathname,
-			});
+		if (type === "question") {
+			await deleteQuestion({ questionId: itemId, path });
+		} else {
+			await deleteAnswer({ answerId: itemId, path });
 		}
 	};
-
 	return (
 		<div className="flex items-center justify-end gap-3 max-sm:w-full">
-			{type === "Question" && (
+			{type === "question" && (
 				<Image
 					src="/assets/icons/edit.svg"
 					alt="Edit"
@@ -46,7 +32,6 @@ const EditDeleteAction = ({ type, itemId }: Props) => {
 					onClick={handleEdit}
 				/>
 			)}
-
 			<Image
 				src="/assets/icons/trash.svg"
 				alt="Delete"
@@ -57,6 +42,9 @@ const EditDeleteAction = ({ type, itemId }: Props) => {
 			/>
 		</div>
 	);
-};
+}
 
-export default EditDeleteAction;
+interface Props {
+	type: "question" | "answer";
+	itemId: string;
+}

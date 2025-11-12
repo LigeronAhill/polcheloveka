@@ -27,7 +27,10 @@ const AnswerCard = ({
 	upvotes,
 	createdAt,
 }: Props) => {
-	const showActionButtons = userId && userId === author._id;
+	console.log("user id: ", userId);
+	console.log("author id: ", author._id);
+	const showActionButtons =
+		userId && userId.toString() === author._id.toString();
 
 	return (
 		<div className="dark:dark-gradient rounded-[10px] bg-light-900 px-11 py-9 shadow-light-100 dark:shadow-dark-100">
@@ -43,7 +46,7 @@ const AnswerCard = ({
 					</div>
 
 					{showActionButtons && userId && (
-						<EditDeleteAction type="Answer" itemId={JSON.stringify(_id)} />
+						<EditDeleteAction type="answer" itemId={JSON.stringify(_id)} />
 					)}
 				</div>
 			</Link>
