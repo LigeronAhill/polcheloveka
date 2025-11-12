@@ -30,25 +30,23 @@ const AnswerCard = ({
 	const showActionButtons = userId && userId === author._id;
 
 	return (
-		<Link
-			href={`/question/${question._id}/#${_id}`}
-			className="card-wrapper rounded-[10px] px-11 py-9"
-		>
-			<div className="flex flex-col-reverse items-start justify-between gap-5 sm:flex-row">
-				<div>
-					<span className="line-clamp-1 flex font-normal text-[10px] text-dark-400 leading-[13px] sm:hidden dark:text-light-700">
-						{getTimeStamp(createdAt)}
-					</span>
-					<h3 className="line-clamp-1 flex-1 font-semibold text-dark-200 text-lg sm:text-xl dark:text-light-900">
-						{question.title}
-					</h3>
+		<div className="dark:dark-gradient rounded-[10px] bg-light-900 px-11 py-9 shadow-light-100 dark:shadow-dark-100">
+			<Link href={`/question/${question._id}/#${_id}`}>
+				<div className="flex flex-col-reverse items-start justify-between gap-5 sm:flex-row">
+					<div>
+						<span className="line-clamp-1 flex font-normal text-[10px] text-dark-400 leading-[13px] sm:hidden dark:text-light-700">
+							{getTimeStamp(createdAt)}
+						</span>
+						<h3 className="line-clamp-1 flex-1 font-semibold text-dark-200 text-lg sm:text-xl dark:text-light-900">
+							{question.title}
+						</h3>
+					</div>
+
+					{showActionButtons && userId && (
+						<EditDeleteAction type="Answer" itemId={JSON.stringify(_id)} />
+					)}
 				</div>
-
-				{showActionButtons && userId && (
-					<EditDeleteAction type="Answer" itemId={JSON.stringify(_id)} />
-				)}
-			</div>
-
+			</Link>
 			<div className="mt-6 flex w-full flex-wrap items-center justify-between gap-3">
 				<Metric
 					imgUrl={author.image}
@@ -70,7 +68,7 @@ const AnswerCard = ({
 					/>
 				</div>
 			</div>
-		</Link>
+		</div>
 	);
 };
 
