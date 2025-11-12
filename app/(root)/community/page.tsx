@@ -26,9 +26,9 @@ export default async function CommunityPage(): Promise<React.JSX.Element> {
 				{results.users.length > 0 ? (
 					results.users.map((user) => (
 						<UserCard
-							key={user._id as string}
+							key={user._id.toString()}
 							user={{
-								_id: user._id as string,
+								_id: user._id.toString(),
 								name: user.name,
 								image: user.image as string,
 							}}
