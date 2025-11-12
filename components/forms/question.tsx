@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import type { Schema } from "mongoose";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -27,6 +28,36 @@ interface Props {
 	type: "create" | "edit";
 	questionDetails?: string;
 }
+// const question = await Question.findById(questionId)
+// 	.populate({ path: "tags", model: Tag, select: "_id name" })
+// 	.populate({
+// 		path: "author",
+// 		model: User,
+// 		select: "_id name image",
+// 	});
+// export interface IQuestion extends Document {
+// 	title: string;
+// 	content: string;
+// 	tags: Schema.Types.ObjectId[];
+// 	views: number;
+// 	upvotes: Schema.Types.ObjectId[];
+// 	downvotes: Schema.Types.ObjectId[];
+// 	author: Schema.Types.ObjectId;
+// 	answers: Schema.Types.ObjectId[];
+// 	createdAt: Date;
+// }
+interface QuestionDetails {
+	_id: Schema.Types.ObjectId;
+	title: string;
+	content: string;
+	tags: { _id: Schema.Types.ObjectId; name: string }[];
+	views: number;
+	upvotes: Schema.Types.ObjectId[];
+	downvotes: Schema.Types.ObjectId[];
+	author: { _id: Schema.Types.ObjectId; name: string; image: string };
+	answers: Schema.Types.ObjectId[];
+	createdAt: Date;
+}
 
 export default function Question({
 	mongoUserId,
@@ -37,17 +68,23 @@ export default function Question({
 	const path = usePathname();
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
-	const parsedQuestionDetails = JSON.parse(questionDetails || "");
+	let parsedQuestionDetails: QuestionDetails;
+	let groupedTags: string[] = [];
+	let title = "";
+	let explanation = "";
 
-	const groupedTags = parsedQuestionDetails.tags.map(
-		(tag: { _id: string; name: string }) => tag.name,
-	);
+	if (questionDetails) {
+		parsedQuestionDetails = JSON.parse(questionDetails);
+		groupedTags = parsedQuestionDetails.tags.map((tag) => tag.name);
+		title = parsedQuestionDetails.title;
+		explanation = parsedQuestionDetails.content;
+	}
 
 	const form = useForm<z.infer<typeof questionFormSchema>>({
 		resolver: zodResolver(questionFormSchema),
 		defaultValues: {
-			title: parsedQuestionDetails.title || "",
-			explanation: parsedQuestionDetails.content || "",
+			title: title,
+			explanation: explanation,
 			tags: groupedTags || [],
 		},
 	});
@@ -107,7 +144,7 @@ export default function Question({
 				router.push("/");
 			} else {
 				await editQuestion({
-					questionId: parsedQuestionDetails._id,
+					questionId: parsedQuestionDetails._id.toString(),
 					title: values.title,
 					content: values.explanation,
 					path: path,
