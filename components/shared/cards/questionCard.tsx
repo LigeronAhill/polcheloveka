@@ -1,9 +1,11 @@
 import Link from "next/link";
+import { getUserProfile } from "@/lib/actions/user.action";
 import { formatNumber, getTimeStamp, pluralize } from "@/lib/utils";
 import Metric from "../metric";
 import RenderTag from "../renderTag";
+import EditDeleteAction from "../editDeleteActions";
 
-export default function QuestionCard({
+export default async function QuestionCard({
 	_id,
 	title,
 	tags,
@@ -12,7 +14,14 @@ export default function QuestionCard({
 	views,
 	answers,
 	createdAt,
-}: Props): React.JSX.Element {
+}: Props): Promise<React.JSX.Element> {
+	let showActionButtons = false;
+	const user = await getUserProfile();
+	if (user) {
+		if (user._id.toString() === author._id.toString()) {
+			showActionButtons = true;
+		}
+	}
 	return (
 		<div className="card-wrapper rounded-[10px] p-9 sm:px-11">
 			<div className="flex flex-col-reverse items-start justify-between gap-5 sm:flex-row">
@@ -26,6 +35,9 @@ export default function QuestionCard({
 						</h3>
 					</Link>
 				</div>
+				{showActionButtons && (
+					<EditDeleteAction type="question" itemId={_id}/>
+				)}
 			</div>
 			<div className="mt-3.5 flex flex-wrap gap-2">
 				{tags.map((tag) => (
