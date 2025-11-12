@@ -14,7 +14,7 @@ export default async function CollectionPage(): Promise<React.JSX.Element> {
 	if (user) {
 		console.log(user);
 		const { questions } = await getSavedQuestions({
-			userId: user._id as string,
+			userId: user._id.toString(),
 		});
 		usersSavedQuestions = questions;
 	}
