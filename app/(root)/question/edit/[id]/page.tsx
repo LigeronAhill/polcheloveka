@@ -9,7 +9,7 @@ export default async function EditQuestionPage({
 }): Promise<React.JSX.Element> {
 	const { id } = await params;
 	const user = await getUserProfile();
-	const user_id = user!._id.toString();
+	const user_id = user!._id;
 	const question = await getQuestionById({ questionId: id });
 	return (
 		<>
@@ -18,7 +18,7 @@ export default async function EditQuestionPage({
 			</h1>
 			<div className="mt-9">
 				<Question
-					mongoUserId={user_id}
+					mongoUserId={JSON.stringify(user_id)}
 					type="edit"
 					questionDetails={JSON.stringify(question)}
 				/>

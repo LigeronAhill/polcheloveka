@@ -28,35 +28,12 @@ interface Props {
 	type: "create" | "edit";
 	questionDetails?: string;
 }
-// const question = await Question.findById(questionId)
-// 	.populate({ path: "tags", model: Tag, select: "_id name" })
-// 	.populate({
-// 		path: "author",
-// 		model: User,
-// 		select: "_id name image",
-// 	});
-// export interface IQuestion extends Document {
-// 	title: string;
-// 	content: string;
-// 	tags: Schema.Types.ObjectId[];
-// 	views: number;
-// 	upvotes: Schema.Types.ObjectId[];
-// 	downvotes: Schema.Types.ObjectId[];
-// 	author: Schema.Types.ObjectId;
-// 	answers: Schema.Types.ObjectId[];
-// 	createdAt: Date;
-// }
 interface QuestionDetails {
-	_id: Schema.Types.ObjectId;
+	_id: string;
 	title: string;
 	content: string;
-	tags: { _id: Schema.Types.ObjectId; name: string }[];
-	views: number;
-	upvotes: Schema.Types.ObjectId[];
-	downvotes: Schema.Types.ObjectId[];
-	author: { _id: Schema.Types.ObjectId; name: string; image: string };
-	answers: Schema.Types.ObjectId[];
-	createdAt: Date;
+	tags: { _id: string; name: string }[];
+	author: { _id: string; name: string; image: string };
 }
 
 export default function Question({

@@ -15,7 +15,7 @@ export default async function AskQuestion() {
 				Задать вопрос
 			</h1>
 			<div className="mt-9">
-				<Question mongoUserId={user._id.toString()} type="create" />
+				<Question mongoUserId={JSON.stringify(user._id)} type="create" />
 			</div>
 		</div>
 	);
