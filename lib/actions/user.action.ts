@@ -71,7 +71,7 @@ export async function updateUser(params: UpdateUserParams): Promise<void> {
 
 		const { userId, updateData, path } = params;
 
-		await User.findOneAndUpdate({ _id: userId }, updateData, {
+		await User.findOneAndUpdate({ _id: JSON.parse(userId) }, updateData, {
 			new: true,
 		});
 

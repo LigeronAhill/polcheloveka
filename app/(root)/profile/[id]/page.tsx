@@ -31,13 +31,13 @@ export default async function ProfilePage({
 	return (
 		<>
 			<div className="flex flex-col-reverse items-start justify-between sm:flex-row">
-				<div className="flex flex-col items-start gap-4 lg:flex-row">
+				<div className="flex flex-col items-start gap-4 lg:flex-row justify-between">
 					<Image
 						src={userInfo?.user.image}
 						alt="profile"
 						width={140}
 						height={140}
-						className="rounded-full object-cover"
+						className="rounded-full object-cover invert dark:invert-0"
 					/>
 					<div className="mt-3">
 						<h2 className="text-2xl font-bold text-dark-100 dark:text-light-900">
@@ -61,21 +61,21 @@ export default async function ProfilePage({
 								imgUrl="/assets/icons/calendar.svg"
 								title={getTimeStamp(userInfo.user.createdAt)}
 							/>
+							{userInfo.user.bio && (
+								<p className="font-base font-normal text-dark-400 dark:text-light-800 mt-6">
+									{userInfo.user.bio}
+								</p>
+							)}
 						</div>
-						{userInfo.user.bio && (
-							<p className="font-base font-normal text-dark-400 dark:text-light=800 mt-6">
-								{userInfo.user.bio}
-							</p>
-						)}
 					</div>
-					{currentUser && isAuthor && (
-						<Link href="/profile/edit">
-							<Button className="bg-light-800 dark:bg-dark-400 text-dark-300 dark:text-light-900 text-base cursor-pointer min-h-[46px] min-w-[175px] px-4 py-3">
-								Редактировать профиль
-							</Button>
-						</Link>
-					)}
 				</div>
+				{currentUser && isAuthor && (
+					<Link href={`/profile/edit/`}>
+						<Button className="bg-light-800 dark:bg-dark-400 text-dark-300 dark:text-light-900 text-base cursor-pointer min-h-[46px] min-w-[175px] px-4 py-3">
+							Редактировать профиль
+						</Button>
+					</Link>
+				)}
 			</div>
 			<Stats
 				totalQuestions={userInfo.totalQuestions}
