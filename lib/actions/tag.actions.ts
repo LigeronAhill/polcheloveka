@@ -1,20 +1,16 @@
 "use server";
 
-import type { FilterQuery } from "mongoose";
+import type {FilterQuery} from "mongoose";
 import Question from "@/database/question.model";
-import Tag, { type ITag } from "@/database/tag.model";
+import Tag, {type ITag} from "@/database/tag.model";
 import User from "@/database/user.model";
-import type { SavedQuestion } from "@/types";
-import { connectToDatabase } from "../mongoose";
-import type {
-	GetAllTagsParams,
-	GetQuestionsByTagIdParams,
-	GetTopInteractedTagsParams,
-} from "./shared.types";
+import type {SavedQuestion} from "@/types";
+import {connectToDatabase} from "../mongoose";
+import type {GetAllTagsParams, GetQuestionsByTagIdParams, GetTopInteractedTagsParams,} from "./shared.types";
 
 export async function getTopInteractedTags(params: GetTopInteractedTagsParams) {
 	try {
-		connectToDatabase();
+		await connectToDatabase();
 
 		const { userId } = params;
 
@@ -37,7 +33,7 @@ export async function getTopInteractedTags(params: GetTopInteractedTagsParams) {
 
 export async function getAllTags(params: GetAllTagsParams) {
 	try {
-		connectToDatabase();
+		await connectToDatabase();
 
 		const { searchQuery, filter, page = 1, pageSize = 10 } = params;
 		const skipAmount = (page - 1) * pageSize;
@@ -128,15 +124,13 @@ export async function getQuestionsByTagId(params: GetQuestionsByTagIdParams) {
 
 export async function getTopPopularTags() {
 	try {
-		connectToDatabase();
+		await connectToDatabase();
 
-		const popularTags = await Tag.aggregate([
-			{ $project: { name: 1, numberOfQuestions: { $size: "$questions" } } },
-			{ $sort: { numberOfQuestions: -1 } },
-			{ $limit: 5 },
-		]);
-
-		return popularTags;
+        return await Tag.aggregate([
+            {$project: {name: 1, numberOfQuestions: {$size: "$questions"}}},
+            {$sort: {numberOfQuestions: -1}},
+            {$limit: 5},
+        ]);
 	} catch (error) {
 		console.log(error);
 		throw error;

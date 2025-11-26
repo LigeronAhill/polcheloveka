@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
+import type React from "react";
 import { useState } from "react";
 import { type ControllerRenderProps, useForm } from "react-hook-form";
 import type { z } from "zod";

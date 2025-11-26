@@ -1,6 +1,7 @@
 import { headers } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
+import type React from "react";
 import AnswerForm from "@/components/forms/answer";
 import { AllAnswers } from "@/components/shared/all_answers";
 import Metric from "@/components/shared/metric";
@@ -23,8 +24,8 @@ export default async function QuestionDetailsPage({
 	});
 	const userId = session?.user?.id;
 	const profile = await getUserProfile();
-	var hasSaved = false;
-	if (profile) {
+    let hasSaved = false;
+    if (profile) {
 		hasSaved = profile.saved.includes(question._id);
 	}
 	return (

@@ -1,9 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import RenderTag from "./renderTag";
-import { getHotQuestions } from "@/lib/actions/question.action";
+import type React from "react";
 import { Suspense } from "react";
+import { getHotQuestions } from "@/lib/actions/question.action";
 import { getTopPopularTags } from "@/lib/actions/tag.actions";
+import RenderTag from "./renderTag";
 
 export default function RightSidebar(): React.JSX.Element {
   return (
@@ -26,7 +27,7 @@ async function TopQuestions(): Promise<React.JSX.Element> {
           {hotQuestions.map((question) => (
             <li key={question._id}>
               <Link
-                href={`/questions/${question._id}`}
+                href={`/question/${question._id}`}
                 className="flex cursor-pointer items-center justify-between gap-7"
               >
                 <p className="font-medium text-dark-500 text-sm dark:text-light-700">
@@ -60,7 +61,7 @@ async function PopularTags(): Promise<React.JSX.Element> {
             <RenderTag
               _id={tag._id}
               name={tag.name}
-              totalQuestions={tag.totalQuestions}
+              totalQuestions={tag.numberOfQuestions}
               showCount
             />
           </li>
