@@ -1,5 +1,6 @@
 "use client";
 import { SelectGroup } from "@radix-ui/react-select";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
 	Select,
 	SelectContent,
@@ -16,6 +17,7 @@ import {
 	TagFilters,
 	UserFilters,
 } from "@/constants/filters";
+import { formUrlQuery } from "@/lib/utils";
 
 interface Props {
 	type:
@@ -52,9 +54,23 @@ export default function Filter({
 				return JobPageFilters;
 		}
 	})();
+	const searchParams = useSearchParams();
+	const router = useRouter();
+	const paramFilter = searchParams.get("filter");
+	const handleUpdateParams = (value: string) => {
+		const newUrl = formUrlQuery({
+			params: searchParams.toString(),
+			key: "filter",
+			value,
+		});
+		router.push(newUrl, { scroll: false });
+	};
 	return (
 		<div className={`relative ${containerClass}`}>
-			<Select>
+			<Select
+				onValueChange={handleUpdateParams}
+				defaultValue={paramFilter || undefined}
+			>
 				<SelectTrigger
 					className={`${className} w-full border border-light-800 bg-light-800 px-5 py-2.5 font-normal text-dark-500 text-sm dark:border-dark-300 dark:bg-dark-300 dark:text-light-700`}
 				>

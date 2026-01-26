@@ -1,12 +1,16 @@
 "use server";
 
-import type {FilterQuery} from "mongoose";
+import type { FilterQuery } from "mongoose";
 import Question from "@/database/question.model";
-import Tag, {type ITag} from "@/database/tag.model";
+import Tag, { type ITag } from "@/database/tag.model";
 import User from "@/database/user.model";
-import type {SavedQuestion} from "@/types";
-import {connectToDatabase} from "../mongoose";
-import type {GetAllTagsParams, GetQuestionsByTagIdParams, GetTopInteractedTagsParams,} from "./shared.types";
+import type { SavedQuestion } from "@/types";
+import { connectToDatabase } from "../mongoose";
+import type {
+	GetAllTagsParams,
+	GetQuestionsByTagIdParams,
+	GetTopInteractedTagsParams,
+} from "./shared.types";
 
 export async function getTopInteractedTags(params: GetTopInteractedTagsParams) {
 	try {
@@ -126,11 +130,11 @@ export async function getTopPopularTags() {
 	try {
 		await connectToDatabase();
 
-        return await Tag.aggregate([
-            {$project: {name: 1, numberOfQuestions: {$size: "$questions"}}},
-            {$sort: {numberOfQuestions: -1}},
-            {$limit: 5},
-        ]);
+		return await Tag.aggregate([
+			{ $project: { name: 1, numberOfQuestions: { $size: "$questions" } } },
+			{ $sort: { numberOfQuestions: -1 } },
+			{ $limit: 5 },
+		]);
 	} catch (error) {
 		console.log(error);
 		throw error;

@@ -24,8 +24,8 @@ export default async function QuestionDetailsPage({
 	});
 	const userId = session?.user?.id;
 	const profile = await getUserProfile();
-    let hasSaved = false;
-    if (profile) {
+	let hasSaved = false;
+	if (profile) {
 		hasSaved = profile.saved.includes(question._id);
 	}
 	return (

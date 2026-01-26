@@ -34,7 +34,7 @@ export default function MobileNav(): React.JSX.Element {
 				<SheetTitle>
 					<Link href={"/"} className="flex items-center gap-1 p-6">
 						<Image
-							src={"/assets/images/site-logo.svg"}
+							src={"/assets/images/halflogo.png"}
 							width={23}
 							height={23}
 							alt="Polcheloveka"

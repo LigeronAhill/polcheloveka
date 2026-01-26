@@ -1,8 +1,13 @@
 # https://just.systems
 
-export MONGO_URL := `skate get mongo@url`
+set windows-shell := ["pwsh", "-NoLogo", "-Command"]
+set dotenv-filename := ".env.local"
+set dotenv-load := true
+
+mongo := env('MONGO_URL')
 
 default:
+    @echo "Mongo url '{{ mongo }}'"
     @just --list
 
 watch:

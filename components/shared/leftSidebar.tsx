@@ -55,22 +55,47 @@ export default function LeftSidebar(): React.JSX.Element {
 						}}
 						className="min-h-12 w-full bg-light-700 text-light-500 hover:bg-light-700 dark:bg-dark-400 dark:text-light-500"
 					>
-						Выйти
+						<Image
+							src="/assets/icons/close.svg"
+							alt="logout"
+							width={20}
+							height={20}
+							className="hidden max-lg:block dark:invert"
+						/>
+						<p className="max-lg:hidden">Выйти</p>
 					</Button>
 				) : (
-					<div className="container space-y-3">
-						<Button
-							asChild
-							className="min-h-12 w-full bg-primary-500 text-light-900 hover:bg-primary-500"
-						>
-							<Link href="/login">Вход</Link>
-						</Button>
-						<Button
-							asChild
-							className="min-h-12 w-full dark:bg-dark-400 dark:text-light-700"
-						>
-							<Link href="/signup">Регистрация</Link>
-						</Button>
+					<div className="space-y-3">
+						<Link href="/login" className="flex">
+							<Button
+								className="min-h-12 w-full cursor-pointer bg-primary-500 text-light-900 hover:bg-primary-500"
+								title="Войти"
+							>
+								<Image
+									src="/assets/icons/account.svg"
+									alt="login"
+									width={20}
+									height={20}
+									className="hidden invert max-lg:block dark:invert-0"
+								/>
+								<span className="max-lg:hidden">Вход</span>
+							</Button>
+						</Link>
+						<Link href="/signup" className="flex">
+							<Button
+								className="min-h-12 w-full cursor-pointer dark:bg-dark-400 dark:text-light-700"
+								title="Зарегистрироваться"
+							>
+								<Image
+									src="/assets/icons/sign-up.svg"
+									alt="signup"
+									width={20}
+									height={20}
+									className="hidden invert max-lg:block dark:invert-0"
+								/>
+								<span className="max-lg:hidden">Регистрация</span>
+							</Button>
+						</Link>
 					</div>
 				)}
 			</div>

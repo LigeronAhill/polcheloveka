@@ -9,7 +9,7 @@ export default function Navbar(): React.JSX.Element {
 		<nav className="fixed z-50 flex w-full items-center justify-between gap-5 bg-light-900 p-6 shadow-light-300 sm:px-12 dark:bg-dark-200 dark:shadow-none">
 			<Link href={"/"} className="flex items-center gap-1">
 				<Image
-					src={"/assets/images/site-logo.svg"}
+					src={"/assets/images/halflogo.png"}
 					width={23}
 					height={23}
 					alt="Polcheloveka"
