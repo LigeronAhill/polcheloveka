@@ -6,10 +6,10 @@ export const connectToDatabase = async () => {
 	mongoose.set("strictQuery", true);
 	const dbURL = process.env.MONGO_URL;
 	if (!dbURL) {
-		return console.log("missing MONGO_URL env var");
+		return console.error("missing MONGO_URL env var");
 	}
 	if (isConnected) {
-		return console.log("MongoDB is already connected");
+		return;
 	}
 	try {
 		await mongoose.connect(dbURL, {

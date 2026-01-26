@@ -19,6 +19,7 @@ export default async function CollectionPage({
 		const { questions } = await getSavedQuestions({
 			userId: user._id.toString(),
 			searchQuery: params.q,
+			filter: params.filter,
 		});
 		usersSavedQuestions = questions;
 	}

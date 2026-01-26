@@ -16,9 +16,13 @@ export async function AllAnswers({
 	totalAnswers: number;
 	userId?: string;
 	page?: number;
-	filter?: string;
+	filter?: string | undefined;
 }) {
-	const answers = await getAnswers({ questionId: questionId });
+	const answers = await getAnswers({
+		questionId: questionId,
+		sortBy: filter,
+		page: page ? +page : 1,
+	});
 	return (
 		<div className="mt-11">
 			<div className="flex items-center justify-between">

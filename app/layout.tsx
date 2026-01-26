@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 	title: "Пол человека",
 	description: "Форум по напольным покрытиям",
 	icons: {
-		icon: "/assets/images/site-logo.svg",
+		icon: "/assets/images/halflogo.png",
 	},
 };
 

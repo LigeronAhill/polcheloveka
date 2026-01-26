@@ -12,12 +12,20 @@ import { getUserProfile } from "@/lib/actions/user.action";
 import { auth } from "@/lib/auth";
 import { formatNumber, getTimeStamp, pluralize } from "@/lib/utils";
 
+interface Props {
+	params: Promise<{ id: string }>;
+	searchParams: Promise<{
+		page?: number | undefined;
+		filter?: string | undefined;
+	}>;
+}
+
 export default async function QuestionDetailsPage({
 	params,
-}: {
-	params: Promise<{ id: string }>;
-}): Promise<React.JSX.Element> {
+	searchParams,
+}: Props): Promise<React.JSX.Element> {
 	const { id } = await params;
+	const searchParamsObject = await searchParams;
 	const question = await getQuestionById({ questionId: id });
 	const session = await auth.api.getSession({
 		headers: await headers(),
@@ -102,6 +110,8 @@ export default async function QuestionDetailsPage({
 				questionId={id}
 				totalAnswers={question.answers.length}
 				userId={userId}
+				page={searchParamsObject.page}
+				filter={searchParamsObject.filter}
 			/>
 			<AnswerForm author={userId} question={id} />
 		</article>

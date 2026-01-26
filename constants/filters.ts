@@ -1,8 +1,8 @@
 export const AnswerFilters = [
-	{ name: "Highest Upvotes", value: "highestUpvotes" },
-	{ name: "Lowest Upvotes", value: "lowestUpvotes" },
-	{ name: "Most Recent", value: "recent" },
-	{ name: "Oldest", value: "old" },
+	{ name: "Больще оценок", value: "highestUpvotes" },
+	{ name: "Меньше оценок", value: "lowestUpvotes" },
+	{ name: "Новые", value: "recent" },
+	{ name: "Старые", value: "old" },
 ];
 
 export const UserFilters = [
@@ -12,11 +12,11 @@ export const UserFilters = [
 ];
 
 export const QuestionFilters = [
-	{ name: "Most Recent", value: "most_recent" },
-	{ name: "Oldest", value: "oldest" },
-	{ name: "Most Voted", value: "most_voted" },
-	{ name: "Most Viewed", value: "most_viewed" },
-	{ name: "Most Answered", value: "most_answered" },
+	{ name: "Новые", value: "most_recent" },
+	{ name: "Старые", value: "oldest" },
+	{ name: "Рейтинг", value: "most_voted" },
+	{ name: "Просмотры", value: "most_viewed" },
+	{ name: "Ответы", value: "most_answered" },
 ];
 
 export const TagFilters = [

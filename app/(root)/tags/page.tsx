@@ -12,6 +12,7 @@ export default async function TagsPage({
 	const params = await searchParams;
 	const results = await getAllTags({
 		searchQuery: params.q,
+		filter: params.filter,
 	});
 	return (
 		<>

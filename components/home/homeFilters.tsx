@@ -1,7 +1,7 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
-import { HomePageFilters } from "@/constants/filters";
+import { QuestionFilters } from "@/constants/filters";
 import { formUrlQuery } from "@/lib/utils";
 import { Button } from "../ui/button";
 
@@ -29,8 +29,8 @@ export default function HomeFilters(): React.JSX.Element {
 		}
 	};
 	return (
-		<div className="mt-10 grid grid-cols-4 gap-3 max-md:hidden">
-			{HomePageFilters.map((filter) => (
+		<div className="mt-10 grid grid-cols-5 gap-3 max-md:hidden">
+			{QuestionFilters.map((filter) => (
 				<Button
 					key={filter.value}
 					onClick={() => handleTypeClick(filter.value)}
